@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H-2A Guestworker Visa Tracker — Who's Hiring Farmworkers?</title>
+    <meta name="description" content="Search H-2A temporary agricultural visa records by employer, state, or job type. See certified wages, worker counts, and housing compliance for 13,000+ employers and 254,000+ workers.">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #12121a;
+            --surface2: #1a1a25;
+            --border: #2a2a3a;
+            --text: #e0e0e8;
+            --text-dim: #8888a0;
+            --accent: #4ecdc4;
+            --accent2: #45b7aa;
+            --red: #e74c5f;
+            --green: #2ecc71;
+            --orange: #f39c12;
+            --yellow: #f1c40f;
+            --blue: #3498db;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 960px; margin: 0 auto; padding: 20px; }
+
+        header { text-align: center; padding: 40px 0 20px; }
+        h1 { font-size: 2em; font-weight: 700; margin-bottom: 8px; }
+        .subtitle { color: var(--text-dim); font-size: 1.05em; max-width: 650px; margin: 0 auto; }
+
+        .stats-bar {
+            display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+            margin: 24px 0; padding: 16px; background: var(--surface); border-radius: 12px; border: 1px solid var(--border);
+        }
+        .stat { text-align: center; min-width: 120px; }
+        .stat-value { font-size: 1.6em; font-weight: 700; color: var(--accent); }
+        .stat-label { font-size: 0.8em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* Search */
+        .search-section { margin: 24px 0; }
+
+        .mode-tabs {
+            display: flex; gap: 4px; margin-bottom: 16px; background: var(--surface); border-radius: 10px; padding: 4px;
+        }
+        .mode-tab {
+            flex: 1; padding: 10px; text-align: center; border: none; background: none;
+            color: var(--text-dim); cursor: pointer; border-radius: 8px; font-size: 0.9em; font-weight: 500; transition: all 0.2s;
+        }
+        .mode-tab.active { background: var(--accent); color: var(--bg); font-weight: 600; }
+        .mode-tab:hover:not(.active) { color: var(--text); background: var(--surface2); }
+
+        .search-box {
+            position: relative; margin-bottom: 16px;
+        }
+        .search-box input {
+            width: 100%; padding: 14px 16px; background: var(--surface); border: 1px solid var(--border);
+            border-radius: 10px; color: var(--text); font-size: 1em; outline: none; transition: border-color 0.2s;
+        }
+        .search-box input:focus { border-color: var(--accent); }
+        .search-box input::placeholder { color: var(--text-dim); }
+
+        .search-hint { color: var(--text-dim); font-size: 0.85em; margin-top: 4px; }
+
+        /* State selector */
+        .state-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin-bottom: 16px;
+        }
+        .state-btn {
+            padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+            color: var(--text); cursor: pointer; font-size: 0.85em; text-align: left; transition: all 0.2s;
+        }
+        .state-btn:hover { border-color: var(--accent); background: var(--surface2); }
+        .state-btn .state-name { font-weight: 600; }
+        .state-btn .state-info { color: var(--text-dim); font-size: 0.85em; }
+
+        /* Results */
+        .results { margin: 16px 0; }
+        .results-header { color: var(--text-dim); margin-bottom: 12px; font-size: 0.9em; }
+
+        .result-card {
+            background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+            padding: 16px; margin-bottom: 10px; cursor: pointer; transition: border-color 0.2s;
+        }
+        .result-card:hover { border-color: var(--accent); }
+
+        .result-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+        .result-name { font-weight: 600; font-size: 1.05em; }
+        .result-badge {
+            padding: 3px 10px; border-radius: 20px; font-size: 0.8em; font-weight: 600; white-space: nowrap;
+        }
+        .badge-certified { background: rgba(46, 204, 113, 0.15); color: var(--green); }
+        .badge-denied { background: rgba(231, 76, 95, 0.15); color: var(--red); }
+        .badge-withdrawn { background: rgba(136, 136, 160, 0.15); color: var(--text-dim); }
+        .badge-partial { background: rgba(241, 196, 15, 0.15); color: var(--yellow); }
+
+        .result-meta {
+            display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; font-size: 0.9em; color: var(--text-dim);
+        }
+        .result-meta span { display: flex; align-items: center; gap: 4px; }
+
+        /* Detail panel */
+        .detail-panel {
+            background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+            padding: 24px; margin: 16px 0;
+        }
+        .detail-panel h2 { font-size: 1.3em; margin-bottom: 16px; }
+        .detail-section { margin-bottom: 20px; }
+        .detail-section h3 {
+            font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.5px;
+            color: var(--accent); margin-bottom: 8px;
+        }
+
+        .detail-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;
+        }
+        .detail-item { background: var(--surface2); padding: 12px; border-radius: 8px; }
+        .detail-item .label { font-size: 0.8em; color: var(--text-dim); margin-bottom: 2px; }
+        .detail-item .value { font-size: 1.1em; font-weight: 600; }
+
+        .app-table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+        .app-table th {
+            text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border);
+            color: var(--text-dim); font-size: 0.85em; text-transform: uppercase;
+        }
+        .app-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); }
+        .app-table tr:hover { background: var(--surface2); }
+
+        .compliance-flag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; margin: 2px; }
+        .compliance-yes { background: rgba(46, 204, 113, 0.15); color: var(--green); }
+        .compliance-no { background: rgba(231, 76, 95, 0.15); color: var(--red); }
+        .compliance-none { background: rgba(136, 136, 160, 0.15); color: var(--text-dim); }
+
+        .back-btn {
+            background: none; border: 1px solid var(--border); color: var(--text-dim); padding: 8px 16px;
+            border-radius: 8px; cursor: pointer; font-size: 0.9em; margin-bottom: 16px; transition: all 0.2s;
+        }
+        .back-btn:hover { border-color: var(--accent); color: var(--text); }
+
+        /* State detail */
+        .state-header { margin-bottom: 16px; }
+        .state-header h2 { margin-bottom: 8px; }
+        .state-stats { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+
+        .state-filter {
+            display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;
+        }
+        .state-filter input {
+            flex: 1; min-width: 200px; padding: 10px 14px; background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 8px; color: var(--text); font-size: 0.9em; outline: none;
+        }
+        .state-filter input:focus { border-color: var(--accent); }
+
+        /* Footer */
+        footer {
+            margin-top: 60px; padding: 24px 0; border-top: 1px solid var(--border);
+            color: var(--text-dim); font-size: 0.85em; text-align: center;
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+        .loading { text-align: center; padding: 40px; color: var(--text-dim); }
+        .no-results { text-align: center; padding: 40px; color: var(--text-dim); }
+
+        /* Wage comparison bar */
+        .wage-bar-container { margin: 8px 0; }
+        .wage-bar {
+            height: 8px; border-radius: 4px; background: var(--surface2); position: relative; overflow: hidden;
+        }
+        .wage-bar-fill {
+            height: 100%; border-radius: 4px; transition: width 0.3s;
+        }
+        .wage-bar-label {
+            display: flex; justify-content: space-between; font-size: 0.8em; color: var(--text-dim); margin-top: 2px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.5em; }
+            .stats-bar { gap: 12px; }
+            .stat-value { font-size: 1.3em; }
+            .detail-grid { grid-template-columns: 1fr; }
+            .state-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+        }
+
+        .hidden { display: none; }
+
+        .tag {
+            display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.8em;
+            background: rgba(78, 205, 196, 0.1); color: var(--accent); margin: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>H-2A Guestworker Visa Tracker</h1>
+            <p class="subtitle">Search H-2A temporary agricultural visa applications. See who's hiring guestworkers, what they're paying, and whether housing passes inspection.</p>
+        </header>
+
+        <div class="stats-bar" id="stats-bar">
+            <div class="stat"><div class="stat-value" id="stat-workers">—</div><div class="stat-label">Workers Certified</div></div>
+            <div class="stat"><div class="stat-value" id="stat-employers">—</div><div class="stat-label">Employers</div></div>
+            <div class="stat"><div class="stat-value" id="stat-apps">—</div><div class="stat-label">Applications</div></div>
+            <div class="stat"><div class="stat-value" id="stat-wage">—</div><div class="stat-label">Median Hourly Wage</div></div>
+        </div>
+
+        <div class="search-section">
+            <div class="mode-tabs">
+                <button class="mode-tab active" data-mode="employer">Employer Search</button>
+                <button class="mode-tab" data-mode="state">Browse by State</button>
+            </div>
+
+            <div id="employer-mode">
+                <div class="search-box">
+                    <input type="text" id="employer-search" placeholder="Search by employer name (e.g., Fresh Harvest, Zirkle Fruit)..." autocomplete="off">
+                </div>
+                <div class="search-hint">Type at least 2 characters to search 13,000+ employers</div>
+            </div>
+
+            <div id="state-mode" class="hidden">
+                <div id="state-grid" class="state-grid"></div>
+            </div>
+        </div>
+
+        <div id="results" class="results"></div>
+        <div id="detail-view" class="hidden"></div>
+        <div id="state-detail-view" class="hidden"></div>
+
+        <footer>
+            <p>Data: <a href="https://www.dol.gov/agencies/eta/foreign-labor/performance" target="_blank">DOL ETA H-2A Disclosure Data</a> (FY2026 Q2)</p>
+            <p style="margin-top:4px">17,033 applications covering 254,688 certified workers across 51 states/territories</p>
+            <p style="margin-top:8px"><a href="https://greattombproductions.github.io/quest-board/" target="_blank">More tools like this</a></p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

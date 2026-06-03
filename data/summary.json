@@ -1,0 +1,137 @@
+{
+  "total_applications": 17033,
+  "certified_applications": 16707,
+  "total_certified_workers": 254688,
+  "unique_employers": 13430,
+  "states": 51,
+  "status_breakdown": {
+    "Determination Issued - Certification": 15810,
+    "Determination Issued - Certification (Expired)": 837,
+    "Determination Issued - Withdrawn": 236,
+    "Determination Issued - Denied": 90,
+    "Determination Issued - Partial Certification": 58,
+    "Determination Issued - Partial Certification (Expired)": 2
+  },
+  "wage_stats": {
+    "min": 7.25,
+    "max": 2933.51,
+    "median": 15.67,
+    "p25": 13.03,
+    "p75": 18.22,
+    "mean": 16.34
+  },
+  "top_states": {
+    "FL": 30044,
+    "GA": 28829,
+    "WA": 25368,
+    "CA": 23506,
+    "NC": 17141,
+    "TX": 12632,
+    "LA": 9126,
+    "MI": 8742,
+    "AR": 6084,
+    "AZ": 5918,
+    "NY": 5877,
+    "ID": 5518,
+    "KY": 5485,
+    "MS": 5440,
+    "SC": 5139
+  },
+  "top_soc": {
+    "Farmworkers and Laborers, Crop, Nursery, and Greenhouse": 200328,
+    "Agricultural Equipment Operators": 30724,
+    "Farmworkers, Farm, Ranch, and Aquacultural Animals": 16482,
+    "Heavy and Tractor-Trailer Truck Drivers": 1595,
+    "Construction Laborers": 1441,
+    "Farm Equipment Mechanics and Service Technicians": 509,
+    "Shuttle Drivers and Chauffeurs": 451,
+    "Graders and Sorters, Agricultural Products": 405,
+    "Helpers--Carpenters": 280,
+    "Packers and Packagers, Hand": 272
+  },
+  "top_employers": [
+    {
+      "name": "North Carolina Grower's Association, Inc.",
+      "workers": 6405
+    },
+    {
+      "name": "WAFLA",
+      "workers": 4411
+    },
+    {
+      "name": "Fresh Harvest, Inc.",
+      "workers": 3817
+    },
+    {
+      "name": "McDougall Family Farming Inc",
+      "workers": 2131
+    },
+    {
+      "name": "Ag Labor LLC",
+      "workers": 1979
+    },
+    {
+      "name": "Zirkle Fruit Company",
+      "workers": 1950
+    },
+    {
+      "name": "Manzana LLC",
+      "workers": 1841
+    },
+    {
+      "name": "WASHINGTON FRUIT ADMINISTRATIVE SERVICES II, INC",
+      "workers": 1806
+    },
+    {
+      "name": "Stemilt Ag Services, LLC",
+      "workers": 1691
+    },
+    {
+      "name": "Central Arizona Farming, Inc.",
+      "workers": 1350
+    },
+    {
+      "name": "Elkhorn Packing Co. LLC",
+      "workers": 1324
+    },
+    {
+      "name": "Peri & Sons Farms of California, LLC",
+      "workers": 1255
+    },
+    {
+      "name": "Del Norte Harvesting, LLC",
+      "workers": 1155
+    },
+    {
+      "name": "Dunson Harvesting, Inc.",
+      "workers": 1046
+    },
+    {
+      "name": "South Carolina Growers Association",
+      "workers": 1000
+    },
+    {
+      "name": "Virginia Agricultural Growers Association, Inc.",
+      "workers": 970
+    },
+    {
+      "name": "Borton & Sons, Inc.",
+      "workers": 956
+    },
+    {
+      "name": "Ag Plus Labor, LLC",
+      "workers": 910
+    },
+    {
+      "name": "Deep South Farming Services LLC",
+      "workers": 898
+    },
+    {
+      "name": "Hamilton Growers, Inc.",
+      "workers": 893
+    }
+  ],
+  "data_source": "DOL ETA H-2A Disclosure Data FY2026 Q2",
+  "data_url": "https://www.dol.gov/agencies/eta/foreign-labor/performance",
+  "generated": "2026-06-03"
+}
